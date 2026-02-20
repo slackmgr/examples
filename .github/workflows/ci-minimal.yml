@@ -96,7 +96,8 @@ jobs:
       uses: actions/setup-go@v6.2.0
       with:
         go-version: 'stable'
-        cache: false
+        cache: true
+        cache-dependency-path: 'minimal/go.sum'
 
     - name: Install gosec
       run: go install github.com/securego/gosec/v2/cmd/gosec@latest
