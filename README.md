@@ -1,4 +1,4 @@
-# examples
+# slackmgr/examples
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI (minimal)](https://github.com/slackmgr/examples/workflows/CI%20(minimal)/badge.svg)](https://github.com/slackmgr/examples/actions/workflows/ci-minimal.yml)
