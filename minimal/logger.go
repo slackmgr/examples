@@ -19,9 +19,7 @@ func newLogger() *Logger {
 	zerolog.DurationFieldInteger = true
 	zerolog.DurationFieldUnit = time.Millisecond
 
-	var level zerolog.Level
-
-	level = zerolog.DebugLevel
+	level := zerolog.DebugLevel
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 
 	var loggerInstance zerolog.Logger

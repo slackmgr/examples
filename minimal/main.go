@@ -25,6 +25,7 @@ func main() {
 func mainImpl() (retErr error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
 	defer func() {
 		if r := recover(); r != nil {
 			retErr = fmt.Errorf("panic: %v\n%s", r, debug.Stack())
