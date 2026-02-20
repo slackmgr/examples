@@ -111,3 +111,4 @@ jobs:
       uses: github/codeql-action/upload-sarif@v4.32.3
       with:
         sarif_file: flexible/results.sarif
+        checkout_path: ${{ github.workspace }}/flexible
