@@ -1,0 +1,76 @@
+version: "2"
+run:
+  tests: true
+linters:
+  default: all
+  disable:
+    - cyclop
+    - depguard
+    - dupl
+    - err113
+    - exhaustruct
+    - funlen
+    - gocognit
+    - gocyclo
+    - godot
+    - godox
+    - gomodguard
+    - interfacebloat
+    - lll
+    - maintidx
+    - mnd
+    - nestif
+    - nlreturn
+    - noinlineerr
+    - testpackage
+    - varnamelen
+    - wrapcheck
+    - wsl
+    - wsl_v5
+  settings:
+    asasalint:
+      use-builtin-exclusions: true
+    ireturn:
+      allow:
+        - anon
+        - error
+        - empty
+        - stdlib
+        - generic
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - gochecknoglobals
+          - gosec
+          - revive
+        path: (.+)_test\.go
+      - linters:
+          - asasalint
+          - goconst
+        path: (.+)_test\.go
+    paths:
+      - testdata
+      - bin
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - testdata
+      - bin
+      - third_party$
+      - builtin$
+      - examples$

@@ -1,0 +1,23 @@
+routingRules:
+  - name: Team A
+    description: Team A alerts
+    equals:
+      - "a"
+    hasPrefix:
+      - "a-"
+      - "a_"
+      - "a/"
+    channel: CXXXXXXXXXXX
+  - name: Team B
+    description: Team B alerts
+    equals:
+      - "b"
+    hasPrefix:
+      - "b-"
+      - "b_"
+      - "b/"
+    channel: CYYYYYYYYYYY
+  - name: Fallback
+    description: Alerts that don't match any specific team
+    matchAll: true
+    channel: CZZZZZZZZZZZ

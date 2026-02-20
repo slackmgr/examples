@@ -1,0 +1,17 @@
+{
+    "correlationId": "foo-1",
+    "header": ":status: App error",
+    "text": "TESTING TESTING!\nApp `foo` is failing",
+    "severity": "warning",
+    "issueFollowUpEnabled": true,
+    "autoResolveSeconds": 60,
+    "autoResolveAsInconclusive": false,
+    "slackChannelId": "",
+    "routeKey": "a",
+    "host": "10.11.12.13",
+    "username": "",
+    "iconEmoji": ":polar_bear:",
+    "fallbackText": "App foo is failing",
+    "notificationDelaySeconds": 0,
+    "archivingDelaySeconds": 30
+}
