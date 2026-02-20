@@ -37,6 +37,7 @@ jobs:
       with:
         go-version-file: 'flexible/go.mod'
         cache: true
+        cache-dependency-path: 'flexible/go.sum'
 
     - name: Run go fmt
       working-directory: flexible
@@ -74,6 +75,7 @@ jobs:
       with:
         go-version-file: 'flexible/go.mod'
         cache: true
+        cache-dependency-path: 'flexible/go.sum'
 
     - name: Run golangci-lint
       uses: golangci/golangci-lint-action@v9.2.0
