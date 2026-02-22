@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/rs/zerolog v1.34.0
-	github.com/slackmgr/core v0.2.2
+	github.com/slackmgr/core v0.2.3
 	github.com/slackmgr/types v0.3.1
 	golang.org/x/sync v0.19.0
 )
@@ -51,7 +51,7 @@ require (
 	github.com/redis/go-redis/v9 v9.18.0 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
 	github.com/segmentio/ksuid v1.0.4 // indirect
-	github.com/slack-go/slack v0.17.3 // indirect
+	github.com/slack-go/slack v0.18.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.3.1 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
