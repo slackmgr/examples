@@ -13,8 +13,9 @@ flexible/flexible
 # Test binary, built with `go test -c`
 *.test
 
-# Output of the go coverage tool
+# Output of the go coverage tool and gosec
 *.out
+*.sarif
 
 # Go workspace files
 go.work

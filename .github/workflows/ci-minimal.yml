@@ -104,11 +104,4 @@ jobs:
 
     - name: Run Gosec Security Scanner
       working-directory: minimal
-      run: gosec -fmt sarif -out results.sarif ./...
-
-    - name: Upload Gosec results
-      if: always()
-      uses: github/codeql-action/upload-sarif@v4.32.3
-      with:
-        sarif_file: minimal/results.sarif
-        checkout_path: ${{ github.workspace }}/minimal
+      run: gosec ./...

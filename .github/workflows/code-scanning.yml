@@ -1,0 +1,43 @@
+name: Code Scanning
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  security-events: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gosec:
+    name: GoSec
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v6.0.2
+
+    - name: Set up Go
+      uses: actions/setup-go@v6.2.0
+      with:
+        go-version: 'stable'
+        cache: true
+
+    - name: Install gosec
+      run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+    - name: Run Gosec Security Scanner
+      run: gosec -fmt sarif -out results.sarif ./...
+
+    - name: Upload Gosec results
+      if: always()
+      uses: github/codeql-action/upload-sarif@v4.32.3
+      with:
+        sarif_file: results.sarif
