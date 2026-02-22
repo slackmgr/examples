@@ -3,8 +3,18 @@ name: Code Scanning
 on:
   push:
     branches: [ main ]
+    paths:
+      - '**/*.go'
+      - '**/go.mod'
+      - '**/go.sum'
+      - '.github/workflows/code-scanning.yml'
   pull_request:
     branches: [ main ]
+    paths:
+      - '**/*.go'
+      - '**/go.mod'
+      - '**/go.sum'
+      - '.github/workflows/code-scanning.yml'
   workflow_dispatch:
 
 permissions:
@@ -29,6 +39,7 @@ jobs:
       with:
         go-version: 'stable'
         cache: true
+        cache-dependency-path: "**/go.sum" # Use glob pattern to match all go.sum files, across all subdirectories
 
     - name: Install gosec
       run: go install github.com/securego/gosec/v2/cmd/gosec@latest

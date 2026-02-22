@@ -4,13 +4,17 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'flexible/**'
+      - 'flexible/*.go'
+      - 'flexible/go.mod'
+      - 'flexible/go.sum'
       - '.golangci.yaml'
       - '.github/workflows/ci-flexible.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - 'flexible/**'
+      - 'flexible/*.go'
+      - 'flexible/go.mod'
+      - 'flexible/go.sum'
       - '.golangci.yaml'
       - '.github/workflows/ci-flexible.yml'
   workflow_dispatch:

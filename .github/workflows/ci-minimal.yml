@@ -4,13 +4,17 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'minimal/**'
+      - 'minimal/*.go'
+      - 'minimal/go.mod'
+      - 'minimal/go.sum'
       - '.golangci.yaml'
       - '.github/workflows/ci-minimal.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - 'minimal/**'
+      - 'minimal/*.go'
+      - 'minimal/go.mod'
+      - 'minimal/go.sum'
       - '.golangci.yaml'
       - '.github/workflows/ci-minimal.yml'
   workflow_dispatch:
