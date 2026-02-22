@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -223,7 +224,7 @@ func createAwsCfg(ctx context.Context, c *config.AwsConfig, logger *Logger) (*aw
 // readManagerSettings reads and unmarshals the manager settings from the specified yaml file.
 // It also returns a hash of the settings for change detection, for hot-reloading purposes.
 func readManagerSettings(filename string) (*managerconfig.ManagerSettings, string, error) {
-	settingsYaml, err := os.ReadFile(filename)
+	settingsYaml, err := os.ReadFile(filepath.Clean(filename))
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to read manager settings file %s: %w", filename, err)
 	}
@@ -240,7 +241,7 @@ func readManagerSettings(filename string) (*managerconfig.ManagerSettings, strin
 // readAPISettings reads and unmarshals the API settings from the specified yaml file.
 // It also returns a hash of the settings for change detection, for hot-reloading purposes.
 func readAPISettings(filename string) (*managerconfig.APISettings, string, error) {
-	settingsYaml, err := os.ReadFile(filename)
+	settingsYaml, err := os.ReadFile(filepath.Clean(filename))
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to read API settings file %s: %w", filename, err)
 	}

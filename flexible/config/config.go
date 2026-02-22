@@ -30,7 +30,7 @@ type AwsConfig struct {
 	Region               string
 	Key                  string
 	SecretKey            string
-	SessionToken         string
+	SessionToken         string // #nosec G117
 	AssumeRole           string
 	MaxRetryAttempts     int
 	MaxRetryBackoffDelay time.Duration
@@ -56,7 +56,7 @@ type PostgresConfig struct {
 	Host                        string
 	Port                        int
 	User                        string
-	Password                    string
+	Password                    string // #nosec G117
 	Database                    string
 	SSLMode                     string
 	IssuesTable                 string
@@ -73,7 +73,7 @@ type SlackConfig struct {
 type RedisConfig struct {
 	Addr     string
 	Username string
-	Password string
+	Password string // #nosec G117
 	DB       int
 }
 
@@ -103,15 +103,15 @@ func New() *Config {
 			SqsEndpoint:          GetEnvIfSet("AWS_SQS_ENDPOINT", ""),
 			AlertQueue: SqsQueueConfig{
 				QueueName:                GetEnvIfSet("AWS_SQS_ALERT_QUEUE_NAME", ""),
-				VisibilityTimeoutSeconds: int32(GetEnvIntIfSet("AWS_SQS_ALERT_QUEUE_VISIBILITY_TIMEOUT_SECONDS", 30)),
-				MaxNumberOfMessages:      int32(GetEnvIntIfSet("AWS_SQS_ALERT_QUEUE_MAX_NUMBER_OF_MESSAGES", 10)),
-				WaitTimeSeconds:          int32(GetEnvIntIfSet("AWS_SQS_ALERT_QUEUE_WAIT_TIME_SECONDS", 20)),
+				VisibilityTimeoutSeconds: int32(GetEnvIntIfSet("AWS_SQS_ALERT_QUEUE_VISIBILITY_TIMEOUT_SECONDS", 30)), // #nosec G115
+				MaxNumberOfMessages:      int32(GetEnvIntIfSet("AWS_SQS_ALERT_QUEUE_MAX_NUMBER_OF_MESSAGES", 10)),     // #nosec G115
+				WaitTimeSeconds:          int32(GetEnvIntIfSet("AWS_SQS_ALERT_QUEUE_WAIT_TIME_SECONDS", 20)),          // #nosec G115
 			},
 			CommandQueue: SqsQueueConfig{
 				QueueName:                GetEnvIfSet("AWS_SQS_COMMAND_QUEUE_NAME", ""),
-				VisibilityTimeoutSeconds: int32(GetEnvIntIfSet("AWS_SQS_COMMAND_QUEUE_VISIBILITY_TIMEOUT_SECONDS", 30)),
-				MaxNumberOfMessages:      int32(GetEnvIntIfSet("AWS_SQS_COMMAND_QUEUE_MAX_NUMBER_OF_MESSAGES", 10)),
-				WaitTimeSeconds:          int32(GetEnvIntIfSet("AWS_SQS_COMMAND_QUEUE_WAIT_TIME_SECONDS", 20)),
+				VisibilityTimeoutSeconds: int32(GetEnvIntIfSet("AWS_SQS_COMMAND_QUEUE_VISIBILITY_TIMEOUT_SECONDS", 30)), // #nosec G115
+				MaxNumberOfMessages:      int32(GetEnvIntIfSet("AWS_SQS_COMMAND_QUEUE_MAX_NUMBER_OF_MESSAGES", 10)),     // #nosec G115
+				WaitTimeSeconds:          int32(GetEnvIntIfSet("AWS_SQS_COMMAND_QUEUE_WAIT_TIME_SECONDS", 20)),          // #nosec G115
 			},
 			DynamoDB: DynamoDBConfig{
 				TableName: GetEnvIfSet("AWS_DYNAMODB_TABLE_NAME", ""),

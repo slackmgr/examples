@@ -45,8 +45,16 @@ func mainImpl() (retErr error) {
 	if cfg.EnableMetrics {
 		metrics = NewPrometheusMetrics()
 		go func() {
-			http.Handle("/metrics", promhttp.Handler())
-			if err := http.ListenAndServe(":"+cfg.MetricsPort, nil); err != nil {
+			mux := http.NewServeMux()
+			mux.Handle("/metrics", promhttp.Handler())
+			srv := &http.Server{
+				Addr:         ":" + cfg.MetricsPort,
+				Handler:      mux,
+				ReadTimeout:  10 * time.Second,
+				WriteTimeout: 10 * time.Second,
+				IdleTimeout:  60 * time.Second,
+			}
+			if err := srv.ListenAndServe(); err != nil {
 				logger.Errorf("Metrics server error: %s", err)
 			}
 		}()
