@@ -17,10 +17,6 @@ flexible/flexible
 *.out
 *.sarif
 
-# Go workspace files
-go.work
-go.work.sum
-
 # Hidden system files
 .DS_Store
 Thumbs.db
