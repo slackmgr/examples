@@ -39,7 +39,10 @@ jobs:
       with:
         go-version: 'stable'
         cache: true
-        cache-dependency-path: "**/go.sum" # Use glob pattern to match all go.sum files, across all subdirectories
+        cache-dependency-path: |
+          go.work
+          minimal/go.sum
+          flexible/go.sum
 
     - name: Install gosec
       run: go install github.com/securego/gosec/v2/cmd/gosec@latest
