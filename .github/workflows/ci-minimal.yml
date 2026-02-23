@@ -20,7 +20,6 @@ on:
   workflow_dispatch:
 
 permissions:
-  security-events: write
   contents: read
 
 concurrency:
@@ -109,3 +108,10 @@ jobs:
     - name: Run Gosec Security Scanner
       working-directory: minimal
       run: gosec ./...
+
+    - name: Install govulncheck
+      run: go install golang.org/x/vuln/cmd/govulncheck@latest
+
+    - name: Run govulncheck
+      working-directory: minimal
+      run: govulncheck ./...

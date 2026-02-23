@@ -108,3 +108,10 @@ jobs:
     - name: Run Gosec Security Scanner
       working-directory: flexible
       run: gosec ./...
+
+    - name: Install govulncheck
+      run: go install golang.org/x/vuln/cmd/govulncheck@latest
+
+    - name: Run govulncheck
+      working-directory: flexible
+      run: govulncheck ./...
