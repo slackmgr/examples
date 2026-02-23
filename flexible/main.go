@@ -122,6 +122,10 @@ func mainImpl() (retErr error) {
 	apiCfg.SlackClient.BotToken = cfg.Slack.BotToken
 	apiCfg.SlackClient.AppToken = cfg.Slack.AppToken
 	apiCfg.EncryptionKey = cfg.EncryptionKey
+	apiCfg.RateLimitPerAlertChannel = &managerconfig.RateLimitConfig{
+		AlertsPerSecond: cfg.APIAlertsPerSecond,
+		AllowedBurst:    cfg.APIAllowedBurst,
+	}
 
 	// Validate the API configuration.
 	if err := apiCfg.Validate(); err != nil {

@@ -20,6 +20,8 @@ type Config struct {
 	DatabaseMode            string
 	ManagerSettingsFilename string
 	APISettingsFilename     string
+	APIAlertsPerSecond      float64
+	APIAllowedBurst         int
 	Aws                     AwsConfig
 	Postgres                PostgresConfig
 	Slack                   SlackConfig
@@ -91,6 +93,8 @@ func New() *Config {
 		DatabaseMode:            GetEnvIfSet("DATABASE_MODE", "postgres"),
 		ManagerSettingsFilename: GetEnvIfSet("MANAGER_SETTINGS_FILENAME", "manager-settings.yaml"),
 		APISettingsFilename:     GetEnvIfSet("API_SETTINGS_FILENAME", "api-settings.yaml"),
+		APIAlertsPerSecond:      GetEnvFloat64IfSet("API_ALERTS_PER_SECOND", 1),
+		APIAllowedBurst:         GetEnvIntIfSet("API_ALLOWED_BURST", 5),
 		Aws: AwsConfig{
 			Region:               GetEnvIfSet("AWS_REGION", ""),
 			Key:                  GetEnvIfSet("AWS_ACCESS_KEY_ID", ""),
@@ -157,6 +161,21 @@ func GetEnvIntIfSet(envVar string, defaultValue int) int {
 		val, err := strconv.Atoi(str)
 		if err != nil {
 			panic(fmt.Sprintf("failed to parse environment variable %s as int: %v", envVar, err))
+		}
+
+		return val
+	}
+
+	return defaultValue
+}
+
+func GetEnvFloat64IfSet(envVar string, defaultValue float64) float64 {
+	str := os.Getenv(envVar)
+
+	if str != "" {
+		val, err := strconv.ParseFloat(str, 64)
+		if err != nil {
+			panic(fmt.Sprintf("failed to parse environment variable %s as float64: %v", envVar, err))
 		}
 
 		return val

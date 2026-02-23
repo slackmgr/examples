@@ -118,6 +118,8 @@ github.com/slack-go/slack v0.18.0 h1:PM3IWgAoaPTnitOyfy8Unq/rk8OZLAxlBUhNLv8sbyg
 github.com/slack-go/slack v0.18.0/go.mod h1:K81UmCivcYd/5Jmz8vLBfuyoZ3B4rQC2GHVXHteXiAE=
 github.com/slackmgr/core v0.2.3 h1:/JzD/qyGABok6BOWa2HqXlxatXFKRZlodfXHJHp9rnM=
 github.com/slackmgr/core v0.2.3/go.mod h1:+dK7vHd818oQ/BRO/m1MnnPN4RXh+Kotg2uwdVQAs4o=
+github.com/slackmgr/core v0.3.0 h1:c4FQXYotF8UIB3u9bF5QD6FPsTu+tQxmmQ2cLiE/rP4=
+github.com/slackmgr/core v0.3.0/go.mod h1:+dK7vHd818oQ/BRO/m1MnnPN4RXh+Kotg2uwdVQAs4o=
 github.com/slackmgr/types v0.3.1 h1:71hv37bZsTqA+a9vxJy0069617AZo7wFtTU4ws/OGuU=
 github.com/slackmgr/types v0.3.1/go.mod h1:4JMAqXCLUpZrmTHeU1RDhjbUu5lNAoZ112fvflovZ0Q=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
