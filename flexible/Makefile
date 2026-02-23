@@ -10,7 +10,7 @@ modules:
 test:
 	gosec ./...
 	go fmt ./...
-	go test ./... -timeout 5s --cover
+	go test ./... -race -timeout 5s --cover
 	go vet ./...
 
 compile:
@@ -43,7 +43,7 @@ run-with-in-memory-queues-and-postgres: compile
 
 run-with-redis-queues-and-postgres: compile
 	LOG_JSON=false \
-	VERBOSE=true \
+	VERBOSE=false \
 	ENCRYPTION_KEY=$(ENCRYPTION_KEY) \
 	SLACK_APP_TOKEN=$(SLACK_APP_TOKEN) \
 	SLACK_BOT_TOKEN=$(SLACK_BOT_TOKEN) \
