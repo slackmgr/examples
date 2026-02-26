@@ -143,7 +143,7 @@ func mainImpl() (retErr error) {
 	return errg.Wait()
 }
 
-func createMetrics(cfg *config.Config, logger common.Logger) common.Metrics {
+func createMetrics(cfg *config.Config, logger common.Logger) common.Metrics { //nolint:ireturn
 	if !cfg.EnableMetrics {
 		return &common.NoopMetrics{}
 	}
