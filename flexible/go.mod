@@ -12,11 +12,11 @@ require (
 	github.com/prometheus/client_golang v1.23.2
 	github.com/redis/go-redis/v9 v9.18.0
 	github.com/rs/zerolog v1.34.0
-	github.com/slackmgr/core v0.3.0
-	github.com/slackmgr/plugins/dynamodb v0.3.1
-	github.com/slackmgr/plugins/postgres v0.3.4
-	github.com/slackmgr/plugins/sqs v0.2.1
-	github.com/slackmgr/types v0.3.1
+	github.com/slackmgr/core v0.7.1
+	github.com/slackmgr/plugins/dynamodb v0.3.2
+	github.com/slackmgr/plugins/postgres v0.3.5
+	github.com/slackmgr/plugins/sqs v0.2.2
+	github.com/slackmgr/types v0.4.0
 	golang.org/x/sync v0.19.0
 	gopkg.in/yaml.v2 v2.4.0
 )
@@ -72,7 +72,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.67.5 // indirect
-	github.com/prometheus/procfs v0.19.2 // indirect
+	github.com/prometheus/procfs v0.20.0 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.59.0 // indirect
 	github.com/segmentio/ksuid v1.0.4 // indirect
@@ -84,7 +84,7 @@ require (
 	golang.org/x/arch v0.24.0 // indirect
 	golang.org/x/crypto v0.48.0 // indirect
 	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa // indirect
-	golang.org/x/net v0.50.0 // indirect
+	golang.org/x/net v0.51.0 // indirect
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
 	golang.org/x/time v0.14.0 // indirect

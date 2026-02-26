@@ -5,6 +5,8 @@ import (
 	"os"
 	"strconv"
 	"time"
+
+	managerconfig "github.com/slackmgr/core/config"
 )
 
 type Config struct {
@@ -144,6 +146,43 @@ func New() *Config {
 			DB:       GetEnvIntIfSet("REDIS_DB", 0),
 		},
 	}
+}
+
+func (c *Config) GetManagerCfg() *managerconfig.ManagerConfig {
+	managerCfg := managerconfig.NewDefaultManagerConfig()
+
+	managerCfg.SlackClient.BotToken = c.Slack.BotToken
+	managerCfg.SlackClient.AppToken = c.Slack.AppToken
+	managerCfg.EncryptionKey = c.EncryptionKey
+	managerCfg.Location = c.getLocation()
+	managerCfg.SkipDatabaseCache = c.SkipDatabaseCache
+
+	return managerCfg
+}
+
+func (c *Config) GetAPICfg() *managerconfig.APIConfig {
+	apiCfg := managerconfig.NewDefaultAPIConfig()
+
+	apiCfg.Verbose = c.Verbose
+	apiCfg.LogJSON = c.LogJSON
+	apiCfg.RestPort = c.RestPort
+	apiCfg.SlackClient.BotToken = c.Slack.BotToken
+	apiCfg.SlackClient.AppToken = c.Slack.AppToken
+	apiCfg.EncryptionKey = c.EncryptionKey
+	apiCfg.RateLimitPerAlertChannel = &managerconfig.RateLimitConfig{
+		AlertsPerSecond: c.APIAlertsPerSecond,
+		AllowedBurst:    c.APIAllowedBurst,
+	}
+
+	return apiCfg
+}
+
+func (c *Config) getLocation() *time.Location {
+	loc, err := time.LoadLocation(c.Location)
+	if err != nil {
+		panic(fmt.Errorf("failed to load location %s: %w", c.Location, err))
+	}
+	return loc
 }
 
 func GetEnvIfSet(envVar, defaultValue string) string {

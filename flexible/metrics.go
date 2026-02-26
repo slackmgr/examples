@@ -84,7 +84,7 @@ func (m *PrometheusMetrics) RegisterHistogram(name, help string, buckets []float
 	m.histograms[name] = histogramVec
 }
 
-func (m *PrometheusMetrics) Add(name string, value float64, labelValues ...string) {
+func (m *PrometheusMetrics) CounterAdd(name string, value float64, labelValues ...string) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 
@@ -98,11 +98,11 @@ func (m *PrometheusMetrics) Add(name string, value float64, labelValues ...strin
 	counterVec.WithLabelValues(labelValues...).Add(value)
 }
 
-func (m *PrometheusMetrics) Inc(name string, labelValues ...string) {
-	m.Add(name, 1, labelValues...)
+func (m *PrometheusMetrics) CounterInc(name string, labelValues ...string) {
+	m.CounterAdd(name, 1, labelValues...)
 }
 
-func (m *PrometheusMetrics) Set(name string, value float64, labelValues ...string) {
+func (m *PrometheusMetrics) GaugeSet(name string, value float64, labelValues ...string) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 
@@ -114,6 +114,18 @@ func (m *PrometheusMetrics) Set(name string, value float64, labelValues ...strin
 	// Get the specific gauge for the given labels and set the value.
 	// This is safe for concurrent use.
 	gaugeVec.WithLabelValues(labelValues...).Set(value)
+}
+
+func (m *PrometheusMetrics) GaugeAdd(name string, value float64, labelValues ...string) {
+	m.mu.RLock()
+	defer m.mu.RUnlock()
+
+	gaugeVec, ok := m.gauges[name]
+	if !ok {
+		return
+	}
+
+	gaugeVec.WithLabelValues(labelValues...).Add(value)
 }
 
 func (m *PrometheusMetrics) Observe(name string, value float64, labelValues ...string) {

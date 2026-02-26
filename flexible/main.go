@@ -13,7 +13,6 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog/log"
-	managerconfig "github.com/slackmgr/core/config"
 	managerpkg "github.com/slackmgr/core/manager"
 	api "github.com/slackmgr/core/restapi"
 	"github.com/slackmgr/examples/flexible/config"
@@ -40,28 +39,10 @@ func mainImpl() (retErr error) {
 	cfg := config.New()
 	logger := newLogger(cfg)
 
-	var metrics common.Metrics
+	// Create the metrics instance. If metrics are disabled in the config, this will return a no-op metrics instance.
+	metrics := createMetrics(cfg, logger)
 
-	if cfg.EnableMetrics {
-		metrics = NewPrometheusMetrics()
-		go func() {
-			mux := http.NewServeMux()
-			mux.Handle("/metrics", promhttp.Handler())
-			srv := &http.Server{
-				Addr:         ":" + cfg.MetricsPort,
-				Handler:      mux,
-				ReadTimeout:  10 * time.Second,
-				WriteTimeout: 10 * time.Second,
-				IdleTimeout:  60 * time.Second,
-			}
-			if err := srv.ListenAndServe(); err != nil {
-				logger.Errorf("Metrics server error: %s", err)
-			}
-		}()
-	} else {
-		metrics = &common.NoopMetrics{}
-	}
-
+	// Create the redis client. This is used for both the cache store and the channel locker.
 	redisClient, err := newRedisClient(&cfg.Redis)
 	if err != nil {
 		return fmt.Errorf("failed to create redis client: %w", err)
@@ -72,7 +53,7 @@ func mainImpl() (retErr error) {
 
 	// Create a new channel locker with redis as the backend.
 	// This is used to prevent multiple manager instances from processing the same channel simultaneously.
-	// In a single instance setup, the channel locker is not necessary. Just set it to nil, and the manager will skip locking.
+	// In a single instance setup, the channel locker is not necessary. The manager will default to no locking.
 	// In a multi-instance setup (e.g in k8s), the channel locker is very much necessary.
 	channelLocker := managerpkg.NewRedisChannelLocker(redisClient)
 
@@ -95,12 +76,7 @@ func mainImpl() (retErr error) {
 	}
 
 	// Create the manager configuration, using the defaults and overriding with values from the config.
-	managerCfg := managerconfig.NewDefaultManagerConfig()
-	managerCfg.SlackClient.BotToken = cfg.Slack.BotToken
-	managerCfg.SlackClient.AppToken = cfg.Slack.AppToken
-	managerCfg.EncryptionKey = cfg.EncryptionKey
-	managerCfg.Location = getLocation(cfg)
-	managerCfg.SkipDatabaseCache = cfg.SkipDatabaseCache
+	managerCfg := cfg.GetManagerCfg()
 
 	// Validate the manager configuration.
 	if err := managerCfg.Validate(); err != nil {
@@ -115,17 +91,7 @@ func mainImpl() (retErr error) {
 	}
 
 	// Create the API configuration, using the defaults and overriding with values from the config.
-	apiCfg := managerconfig.NewDefaultAPIConfig()
-	apiCfg.Verbose = cfg.Verbose
-	apiCfg.LogJSON = cfg.LogJSON
-	apiCfg.RestPort = cfg.RestPort
-	apiCfg.SlackClient.BotToken = cfg.Slack.BotToken
-	apiCfg.SlackClient.AppToken = cfg.Slack.AppToken
-	apiCfg.EncryptionKey = cfg.EncryptionKey
-	apiCfg.RateLimitPerAlertChannel = &managerconfig.RateLimitConfig{
-		AlertsPerSecond: cfg.APIAlertsPerSecond,
-		AllowedBurst:    cfg.APIAllowedBurst,
-	}
+	apiCfg := cfg.GetAPICfg()
 
 	// Validate the API configuration.
 	if err := apiCfg.Validate(); err != nil {
@@ -140,10 +106,17 @@ func mainImpl() (retErr error) {
 	}
 
 	// Create the manager instance. This is the main application component, which handles alert processing.
-	manager := managerpkg.New(db, alertQueue, commandQueue, cacheStore, channelLocker, logger, metrics, managerCfg, managerSettings)
+	manager := managerpkg.New(db, alertQueue, commandQueue, logger, managerCfg).
+		WithCacheStore(cacheStore).
+		WithLocker(channelLocker).
+		WithMetrics(metrics).
+		WithSettings(managerSettings)
 
 	// Create the API server instance. This provides the REST API, where clients send alerts.
-	apiServer := api.New(alertQueue, cacheStore, logger, metrics, apiCfg, apiSettings)
+	apiServer := api.New(alertQueue, logger, apiCfg).
+		WithCacheStore(cacheStore).
+		WithMetrics(metrics).
+		WithSettings(apiSettings)
 
 	// Start the manager and API server in separate goroutines.
 	// Also start a goroutine to periodically check for changes in the settings files and hot-reload them.
@@ -168,6 +141,31 @@ func mainImpl() (retErr error) {
 	})
 
 	return errg.Wait()
+}
+
+func createMetrics(cfg *config.Config, logger common.Logger) common.Metrics {
+	if !cfg.EnableMetrics {
+		return &common.NoopMetrics{}
+	}
+
+	metrics := NewPrometheusMetrics()
+
+	go func() {
+		mux := http.NewServeMux()
+		mux.Handle("/metrics", promhttp.Handler())
+		srv := &http.Server{
+			Addr:         ":" + cfg.MetricsPort,
+			Handler:      mux,
+			ReadTimeout:  10 * time.Second,
+			WriteTimeout: 10 * time.Second,
+			IdleTimeout:  60 * time.Second,
+		}
+		if err := srv.ListenAndServe(); err != nil {
+			logger.Errorf("Metrics server error: %s", err)
+		}
+	}()
+
+	return metrics
 }
 
 // refreshSettings periodically checks for changes in the manager and API settings files.

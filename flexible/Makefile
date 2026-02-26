@@ -31,6 +31,8 @@ run-with-in-memory-queues-and-postgres: compile
 	ENCRYPTION_KEY=$(ENCRYPTION_KEY) \
 	SLACK_APP_TOKEN=$(SLACK_APP_TOKEN) \
 	SLACK_BOT_TOKEN=$(SLACK_BOT_TOKEN) \
+	API_ALERTS_PER_SECOND=3 \
+	API_ALLOWED_BURST=20 \
 	REDIS_ADDR=localhost:6379 \
 	QUEUE_MODE=in-memory \
 	DATABASE_MODE=postgres \
@@ -47,6 +49,8 @@ run-with-redis-queues-and-postgres: compile
 	ENCRYPTION_KEY=$(ENCRYPTION_KEY) \
 	SLACK_APP_TOKEN=$(SLACK_APP_TOKEN) \
 	SLACK_BOT_TOKEN=$(SLACK_BOT_TOKEN) \
+	API_ALERTS_PER_SECOND=0.5 \
+	API_ALLOWED_BURST=8 \
 	REDIS_ADDR=localhost:6379 \
 	QUEUE_MODE=redis \
 	DATABASE_MODE=postgres \
@@ -63,6 +67,8 @@ run-with-sqs-queues-and-dynamodb: compile
 	ENCRYPTION_KEY=$(ENCRYPTION_KEY) \
 	SLACK_APP_TOKEN=$(SLACK_APP_TOKEN) \
 	SLACK_BOT_TOKEN=$(SLACK_BOT_TOKEN) \
+	API_ALERTS_PER_SECOND=3 \
+	API_ALLOWED_BURST=20 \
 	REDIS_ADDR=localhost:6379 \
 	QUEUE_MODE=sqs \
 	DATABASE_MODE=dynamodb \

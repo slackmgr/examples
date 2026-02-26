@@ -45,10 +45,6 @@ func mainImpl() (retErr error) {
 	// Create an in-memory database. Do not use this in production!
 	db := types.NewInMemoryDB()
 
-	// Create a no-op channel locker. This in fine when testing, and when running in a non-distributed environment.
-	// In a distributed environment, such as k8s, a proper channel locker MUST be used.
-	channelLocker := &managerpkg.NoopChannelLocker{}
-
 	// Create a minimal manager config.
 	managerCfg := managerconfig.NewDefaultManagerConfig()
 	managerCfg.SlackClient.BotToken = os.Getenv("SLACK_BOT_TOKEN")
@@ -73,13 +69,10 @@ func mainImpl() (retErr error) {
 	}
 
 	// Create the manager instance. This is the main application component, which handles alert processing.
-	// We set the cache store and metrics to nil. The manager will use default in-memory implementations.
-	// The manager settings are also nil, which means the manager will use default values for everything.
-	manager := managerpkg.New(db, alertQueue, commandQueue, nil, channelLocker, logger, nil, managerCfg, nil)
+	manager := managerpkg.New(db, alertQueue, commandQueue, logger, managerCfg)
 
 	// Create the API server instance. This provides the REST API, where clients send alerts.
-	// We set the cache store and metrics to nil. The api will use default in-memory implementations.
-	apiServer := api.New(alertQueue, nil, logger, nil, apiCfg, apiSettings)
+	apiServer := api.New(alertQueue, logger, apiCfg).WithSettings(apiSettings)
 
 	// Start the manager and API server in separate goroutines.
 	errg, ctx := errgroup.WithContext(ctx)

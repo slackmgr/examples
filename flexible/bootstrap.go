@@ -255,15 +255,6 @@ func readAPISettings(filename string) (*managerconfig.APISettings, string, error
 	return &settings, hash(settingsYaml), nil
 }
 
-// getLocation loads and returns a time.Location based on the provided configuration.
-func getLocation(cfg *config.Config) *time.Location {
-	loc, err := time.LoadLocation(cfg.Location)
-	if err != nil {
-		panic(fmt.Errorf("failed to load location %s: %w", cfg.Location, err))
-	}
-	return loc
-}
-
 func hash(input []byte) string {
 	h := sha256.New()
 	h.Write(input)
