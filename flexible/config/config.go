@@ -154,7 +154,7 @@ func (c *Config) GetManagerCfg() *managerconfig.ManagerConfig {
 	managerCfg.SlackClient.BotToken = c.Slack.BotToken
 	managerCfg.SlackClient.AppToken = c.Slack.AppToken
 	managerCfg.EncryptionKey = c.EncryptionKey
-	managerCfg.Location = c.getLocation()
+	managerCfg.Location = c.Location
 	managerCfg.SkipDatabaseCache = c.SkipDatabaseCache
 
 	return managerCfg
@@ -175,14 +175,6 @@ func (c *Config) GetAPICfg() *managerconfig.APIConfig {
 	}
 
 	return apiCfg
-}
-
-func (c *Config) getLocation() *time.Location {
-	loc, err := time.LoadLocation(c.Location)
-	if err != nil {
-		panic(fmt.Errorf("failed to load location %s: %w", c.Location, err))
-	}
-	return loc
 }
 
 func GetEnvIfSet(envVar, defaultValue string) string {
