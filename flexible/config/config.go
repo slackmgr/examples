@@ -63,10 +63,14 @@ type PostgresConfig struct {
 	Password                    string // #nosec G117
 	Database                    string
 	SSLMode                     string
+	SSLRootCert                 string
+	SSLCert                     string
+	SSLKey                      string
 	IssuesTable                 string
 	AlertsTable                 string
 	MoveMappingsTable           string
 	ChannelProcessingStateTable string
+	SchemaMigrationsTable       string
 }
 
 type SlackConfig struct {
@@ -130,10 +134,14 @@ func New() *Config {
 			Password:                    GetEnvIfSet("POSTGRES_PASSWORD", ""),
 			Database:                    GetEnvIfSet("POSTGRES_DATABASE", ""),
 			SSLMode:                     GetEnvIfSet("POSTGRES_SSL_MODE", "disable"),
+			SSLRootCert:                 GetEnvIfSet("POSTGRES_SSL_ROOT_CERT", ""),
+			SSLCert:                     GetEnvIfSet("POSTGRES_SSL_CERT", ""),
+			SSLKey:                      GetEnvIfSet("POSTGRES_SSL_KEY", ""),
 			IssuesTable:                 GetEnvIfSet("POSTGRES_ISSUES_TABLE", "issues"),
 			AlertsTable:                 GetEnvIfSet("POSTGRES_ALERTS_TABLE", "alerts"),
 			MoveMappingsTable:           GetEnvIfSet("POSTGRES_MOVE_MAPPINGS_TABLE", "move_mappings"),
 			ChannelProcessingStateTable: GetEnvIfSet("POSTGRES_CHANNEL_PROCESSING_STATE_TABLE", "channel_processing_state"),
+			SchemaMigrationsTable:       GetEnvIfSet("POSTGRES_SCHEMA_MIGRATIONS_TABLE", "schema_migrations"),
 		},
 		Slack: SlackConfig{
 			AppToken: GetEnvIfSet("SLACK_APP_TOKEN", ""),

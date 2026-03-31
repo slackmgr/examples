@@ -138,6 +138,19 @@ func newPostgresClient(ctx context.Context, cfg *config.PostgresConfig, logger *
 		postgres.WithAlertsTable(cfg.AlertsTable),
 		postgres.WithMoveMappingsTable(cfg.MoveMappingsTable),
 		postgres.WithChannelProcessingStateTable(cfg.ChannelProcessingStateTable),
+		postgres.WithSchemaMigrationsTable(cfg.SchemaMigrationsTable),
+	}
+
+	if cfg.SSLRootCert != "" {
+		opts = append(opts, postgres.WithSSLRootCert(cfg.SSLRootCert))
+	}
+
+	if cfg.SSLCert != "" {
+		opts = append(opts, postgres.WithSSLCert(cfg.SSLCert))
+	}
+
+	if cfg.SSLKey != "" {
+		opts = append(opts, postgres.WithSSLKey(cfg.SSLKey))
 	}
 
 	client := postgres.New(opts...)

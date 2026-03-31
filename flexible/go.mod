@@ -14,7 +14,7 @@ require (
 	github.com/rs/zerolog v1.34.0
 	github.com/slackmgr/core v0.8.0
 	github.com/slackmgr/plugins/dynamodb v0.3.2
-	github.com/slackmgr/plugins/postgres v0.3.5
+	github.com/slackmgr/plugins/postgres v0.4.0
 	github.com/slackmgr/plugins/sqs v0.2.3
 	github.com/slackmgr/types v0.4.0
 	golang.org/x/sync v0.20.0
