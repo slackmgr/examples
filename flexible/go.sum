@@ -162,8 +162,8 @@ github.com/segmentio/ksuid v1.0.4 h1:sBo2BdShXjmcugAMwjugoGUdUV0pcxY5mW4xKRn3v4c
 github.com/segmentio/ksuid v1.0.4/go.mod h1:/XUiZBD3kVx5SmUOl55voK5yeAbBNNIed+2O73XgrPE=
 github.com/slack-go/slack v0.21.0 h1:TAGnZYFp79LAG/oqFzYhFJ9LwEwXJ93heCkPvwjxc7o=
 github.com/slack-go/slack v0.21.0/go.mod h1:K81UmCivcYd/5Jmz8vLBfuyoZ3B4rQC2GHVXHteXiAE=
-github.com/slackmgr/core v0.10.0 h1:kA8gDDijmot1tXl5J8tZmdLwqcv4KGMRKTFVZeSEULo=
-github.com/slackmgr/core v0.10.0/go.mod h1:3dcxYdUHTrMlginOBpIdLu83eccSO64nLvoMmfu5eGo=
+github.com/slackmgr/core v0.10.1 h1:BEiFPVcu1EGj4cBza749PihNi5wcl2tgMXB10USkRmA=
+github.com/slackmgr/core v0.10.1/go.mod h1:iCgcowYBuA9QR6BHT+7wefDBr4lJR6mbt9BwGBJPY+E=
 github.com/slackmgr/plugins/dynamodb v0.3.3 h1:LPIICqGeWsXcUDUjdlAZcyrr6htgbIyhTnr1fJcA9jg=
 github.com/slackmgr/plugins/dynamodb v0.3.3/go.mod h1:H/PzPkbPtM2PYt2A7PZBgztlEJ+WDO6Ub9tjjGKYlIA=
 github.com/slackmgr/plugins/postgres v0.5.1 h1:z8LILGGLPu7xTCLc5i0NYPJlrFZB6xxJ3zVBo3cSKOQ=
