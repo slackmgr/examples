@@ -153,7 +153,7 @@ func newPostgresClient(ctx context.Context, cfg *config.PostgresConfig, logger *
 		opts = append(opts, postgres.WithSSLKey(cfg.SSLKey))
 	}
 
-	client := postgres.New(opts...)
+	client := postgres.New(logger, opts...)
 
 	if err := client.Connect(ctx); err != nil {
 		return nil, err
