@@ -4,8 +4,8 @@ go 1.25.0
 
 require (
 	github.com/rs/zerolog v1.34.0
-	github.com/slackmgr/core v0.12.4
-	github.com/slackmgr/types v0.5.1
+	github.com/slackmgr/core v0.12.7
+	github.com/slackmgr/types v0.6.1
 	golang.org/x/sync v0.20.0
 )
 
