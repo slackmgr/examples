@@ -7,6 +7,7 @@ on:
       - 'flexible/*.go'
       - 'flexible/go.mod'
       - 'flexible/go.sum'
+      - 'go.work'
       - '.golangci.yaml'
       - '.github/workflows/ci-flexible.yml'
   pull_request:
@@ -15,6 +16,7 @@ on:
       - 'flexible/*.go'
       - 'flexible/go.mod'
       - 'flexible/go.sum'
+      - 'go.work'
       - '.golangci.yaml'
       - '.github/workflows/ci-flexible.yml'
   workflow_dispatch:
@@ -33,12 +35,20 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v6.0.2
+      uses: actions/checkout@v7.0.1
 
-    - name: Setup Go
-      uses: actions/setup-go@v6.2.0
+    - name: Read Go version
+      id: go-version
+      run: |
+        version=$(sed -nE 's/^go ([0-9]+\.[0-9]+).*/\1/p' flexible/go.mod)
+        if [ -z "$version" ]; then echo "::error::Could not read Go version from flexible/go.mod"; exit 1; fi
+        echo "version=$version" >> "$GITHUB_OUTPUT"
+
+    - name: Set up Go
+      uses: actions/setup-go@v7.0.0
       with:
-        go-version-file: 'flexible/go.mod'
+        go-version: ${{ steps.go-version.outputs.version }}
+        check-latest: true
         cache: true
         cache-dependency-path: 'flexible/go.sum'
 
@@ -71,17 +81,25 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v6.0.2
+      uses: actions/checkout@v7.0.1
+
+    - name: Read Go version
+      id: go-version
+      run: |
+        version=$(sed -nE 's/^go ([0-9]+\.[0-9]+).*/\1/p' flexible/go.mod)
+        if [ -z "$version" ]; then echo "::error::Could not read Go version from flexible/go.mod"; exit 1; fi
+        echo "version=$version" >> "$GITHUB_OUTPUT"
 
     - name: Set up Go
-      uses: actions/setup-go@v6.2.0
+      uses: actions/setup-go@v7.0.0
       with:
-        go-version-file: 'flexible/go.mod'
+        go-version: ${{ steps.go-version.outputs.version }}
+        check-latest: true
         cache: true
         cache-dependency-path: 'flexible/go.sum'
 
     - name: Run golangci-lint
-      uses: golangci/golangci-lint-action@v9.2.0
+      uses: golangci/golangci-lint-action@v9.3.0
       with:
         version: latest
         args: --timeout=5m
@@ -93,12 +111,20 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v6.0.2
+      uses: actions/checkout@v7.0.1
+
+    - name: Read Go version
+      id: go-version
+      run: |
+        version=$(sed -nE 's/^go ([0-9]+\.[0-9]+).*/\1/p' flexible/go.mod)
+        if [ -z "$version" ]; then echo "::error::Could not read Go version from flexible/go.mod"; exit 1; fi
+        echo "version=$version" >> "$GITHUB_OUTPUT"
 
     - name: Set up Go
-      uses: actions/setup-go@v6.2.0
+      uses: actions/setup-go@v7.0.0
       with:
-        go-version: 'stable'
+        go-version: ${{ steps.go-version.outputs.version }}
+        check-latest: true
         cache: true
         cache-dependency-path: 'flexible/go.sum'
 
