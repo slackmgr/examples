@@ -12,11 +12,11 @@ require (
 	github.com/prometheus/client_golang v1.25.0
 	github.com/redis/go-redis/v9 v9.23.0
 	github.com/rs/zerolog v1.35.1
-	github.com/slackmgr/core v0.15.0
-	github.com/slackmgr/plugins/dynamodb v0.4.0
-	github.com/slackmgr/plugins/postgres v0.6.0
-	github.com/slackmgr/plugins/sqs v0.3.0
-	github.com/slackmgr/types v0.7.1
+	github.com/slackmgr/core v0.17.0
+	github.com/slackmgr/plugins/dynamodb v0.4.1
+	github.com/slackmgr/plugins/postgres v0.7.0
+	github.com/slackmgr/plugins/sqs v0.3.1
+	github.com/slackmgr/types v0.8.0
 	golang.org/x/sync v0.24.0
 	gopkg.in/yaml.v2 v2.4.0
 )
