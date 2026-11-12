@@ -48,7 +48,7 @@ curl -X POST http://localhost:8080/alert \
 
 ## The flexible example
 
-The `flexible` example adds production-grade infrastructure. Start the dependencies first:
+The `flexible` example adds production-grade infrastructure, including a Redis-backed per-channel alert rate limiter shared by all API instances. Start the dependencies first:
 
 ```bash
 cd flexible

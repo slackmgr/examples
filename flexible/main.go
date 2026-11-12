@@ -112,9 +112,17 @@ func mainImpl() (retErr error) {
 		WithMetrics(metrics).
 		WithSettings(managerSettings)
 
+	// Create a per-channel alert rate limiter with redis as the backend.
+	// All API instances share the token bucket of each channel, so the configured rate limit
+	// (rateLimitPerAlertChannel) is the total cap per channel, regardless of the number of instances.
+	// If redis is unavailable, alerts are allowed (fail open).
+	// Without it, the API server defaults to an in-process limiter, which limits each instance separately.
+	alertRateLimiter := api.NewRedisAlertRateLimiter(redisClient, apiCfg.CacheKeyPrefix)
+
 	// Create the API server instance. This provides the REST API, where clients send alerts.
 	apiServer := api.New(alertQueue, logger, apiCfg).
 		WithCacheStore(cacheStore).
+		WithAlertRateLimiter(alertRateLimiter).
 		WithMetrics(metrics).
 		WithSettings(apiSettings)
 
