@@ -4,9 +4,9 @@ go 1.26.0
 
 require (
 	github.com/rs/zerolog v1.35.1
-	github.com/slackmgr/core v0.21.0
-	github.com/slackmgr/types v0.10.0
-	golang.org/x/sync v0.24.0
+	github.com/slackmgr/core v0.30.0
+	github.com/slackmgr/types v0.13.0
+	golang.org/x/sync v0.25.0
 )
 
 require (
@@ -56,11 +56,11 @@ require (
 	go.uber.org/atomic v1.12.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	golang.org/x/arch v0.29.0 // indirect
-	golang.org/x/crypto v0.57.0 // indirect
+	golang.org/x/crypto v0.58.0 // indirect
 	golang.org/x/exp v0.0.0-20260312153236-7ab1446f8b90 // indirect
-	golang.org/x/net v0.60.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
-	golang.org/x/text v0.42.0 // indirect
+	golang.org/x/net v0.62.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
