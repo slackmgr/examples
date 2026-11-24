@@ -28,7 +28,7 @@ routingRules:
 # Scopes: alerts:write (send alerts), alerts:test (POST /alerts-test), config:read (GET /mappings, /channels), * (all)
 #
 # apiKeys:
-#   - id: alertmanager                 # the client ID, logged with each request and used by accessRules
+#   - id: alertmanager                 # the client ID, logged with each request and used by accessRules (no ":")
 #     description: Prometheus Alertmanager
 #     keySha256: "<64 hex characters>"
 #     scopes: [alerts:write]
@@ -38,6 +38,8 @@ routingRules:
 #     scopes: ["*"]
 
 # Channel access rules for authenticated clients (API keys and OIDC clients alike), matched by client ID.
+# OIDC client IDs have the prefix "oidc:" (e.g. oidc:alertmanager for the Keycloak client alertmanager), so they
+# never match API key IDs; "oidc:*" matches all OIDC clients.
 # A client that matches a rule may only send alerts to the channels of its rules (including escalation moveToChannel
 # targets). Clients without a matching rule are allowed all channels, unless defaultChannelAccess is deny.
 #
@@ -46,3 +48,6 @@ routingRules:
 #   - name: alertmanager
 #     principals: [alertmanager]       # client IDs; a trailing * matches a prefix, * matches everyone
 #     channels: [CXXXXXXXXXXX, CYYYYYYYYYYY]
+#   - name: oidc-alertmanager
+#     principals: ["oidc:alertmanager"]
+#     channels: [CXXXXXXXXXXX]

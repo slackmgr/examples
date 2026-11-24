@@ -133,11 +133,11 @@ curl -i -X POST http://localhost:8080/alerts -H 'Content-Type: application/json'
   -H "Authorization: Bearer $TOKEN" -d @test-alerts/alert1.json
 ```
 
-Tokens are validated by the [`oidc` plugin](https://github.com/slackmgr/plugins/tree/main/oidc): signature, issuer (`OIDC_ISSUER_URL`), audience (`OIDC_AUDIENCE`), expiry and scopes. The client ID (`azp`) becomes the principal ID. With `API_AUTH_MODE=both`, API keys and access tokens are both accepted.
+Tokens are validated by the [`oidc` plugin](https://github.com/slackmgr/plugins/tree/main/oidc): signature, issuer (`OIDC_ISSUER_URL`), audience (`OIDC_AUDIENCE`), expiry and scopes. The client ID (`azp`) with the prefix `oidc:` becomes the principal ID (e.g. `oidc:alertmanager`), so it never collides with an API key ID. With `API_AUTH_MODE=both`, API keys and access tokens are both accepted.
 
 ### Channel access rules and client binding
 
-`accessRules` in `api-settings.yaml` restrict the Slack channels each authenticated client (API key ID or OIDC client ID) may send alerts to, including escalation `moveToChannel` targets. Clients without a matching rule may use all channels, unless `defaultChannelAccess: deny`. With `API_CLIENT_BINDING=fill` (default), alerts without a `client` get the client ID, so insights show who sent them; `override` always replaces it.
+`accessRules` in `api-settings.yaml` restrict the Slack channels each authenticated client (API key ID, or `oidc:` + OIDC client ID; `oidc:*` matches all OIDC clients) may send alerts to, including escalation `moveToChannel` targets. Clients without a matching rule may use all channels, unless `defaultChannelAccess: deny`. With `API_CLIENT_BINDING=fill` (default), alerts without a `client` get the client ID, so insights show who sent them; `override` always replaces it.
 
 ### Rolling out authentication
 
