@@ -72,6 +72,11 @@ Key environment variables:
 | `METRICS_PORT` | `9090` | Port for `/metrics` endpoint |
 | `REST_PORT` | `8080` | Port for the alert ingestion REST API |
 | `ENCRYPTION_KEY` | — | 32-char key for webhook payload encryption |
+| `API_AUTH_MODE` | `off` | REST API authentication: `off`, `apikeys`, `oidc` or `both` (see [Authentication](#authentication)) |
+| `API_AUTH_PERMISSIVE` | `false` | Let requests without credentials through anonymously (while migrating clients) |
+| `API_CLIENT_BINDING` | `fill` | Set the alert `client` to the authenticated client ID: `fill`, `override` or `off` |
+| `OIDC_ISSUER_URL` | — | Issuer of OIDC/OAuth2 access tokens (modes `oidc` and `both`) |
+| `OIDC_AUDIENCE` | `slackmgr-api` | Required audience of access tokens |
 
 Settings files (`api-settings.yaml`, `manager-settings.yaml`) are hot-reloaded every 10 seconds — no restart needed when changing routing rules or admin lists.
 
@@ -89,11 +94,62 @@ routingRules:
     channel: CZZZZZZZZZZZ
 ```
 
+## Authentication
+
+The REST API of the flexible example is open by default (`API_AUTH_MODE=off`). Authentication is wired in [`flexible/auth.go`](flexible/auth.go). When it is enabled, all endpoints except `GET /ping` and `GET /openapi.yaml` require credentials with a scope: `alerts:write` (send alerts), `alerts:test` (`POST /alerts-test`), `config:read` (`GET /mappings`, `GET /channels`) or `*` (all).
+
+### API keys
+
+```bash
+cd flexible
+make apikey                 # prints a random key and its SHA-256 hash
+```
+
+Add the hash to `api-settings.yaml` (see the commented `apiKeys` section in `_sample_api-settings.yaml`), and start with `API_AUTH_MODE=apikeys`. Clients send the key as a bearer token (or as the password of HTTP basic authentication):
+
+```bash
+# No credentials: 401
+curl -i -X POST http://localhost:8080/alerts -H 'Content-Type: application/json' -d @test-alerts/alert1.json
+
+# With an API key: 202, or 403 if the key lacks the alerts:write scope or may not use the alert channel
+curl -i -X POST http://localhost:8080/alerts -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $API_KEY" -d @test-alerts/alert1.json
+```
+
+The settings file is hot-reloaded, so keys can be added, rotated and revoked without a restart.
+
+### OIDC/OAuth2 access tokens
+
+The example includes a local [Keycloak](https://www.keycloak.org/) with a `slackmgr` realm ([`flexible/keycloak/slackmgr-realm.json`](flexible/keycloak/slackmgr-realm.json)) and two client credentials clients: `alertmanager` (scope `alerts:write`, secret `alertmanager-demo-secret`) and `slackmgr-admin` (all scopes, secret `admin-demo-secret`). The secrets and the Keycloak admin login (`admin`/`admin`, at http://localhost:8081) are public: use it for local development only.
+
+```bash
+cd flexible
+docker compose --profile oidc up -d                  # Redis, Postgres and Keycloak
+make run-with-redis-queues-and-postgres API_AUTH_MODE=oidc
+
+# In another terminal: get an access token and send an alert
+TOKEN=$(make -s token)                               # or: make -s token CLIENT=slackmgr-admin SECRET=admin-demo-secret
+curl -i -X POST http://localhost:8080/alerts -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $TOKEN" -d @test-alerts/alert1.json
+```
+
+Tokens are validated by the [`oidc` plugin](https://github.com/slackmgr/plugins/tree/main/oidc): signature, issuer (`OIDC_ISSUER_URL`), audience (`OIDC_AUDIENCE`), expiry and scopes. The client ID (`azp`) becomes the principal ID. With `API_AUTH_MODE=both`, API keys and access tokens are both accepted.
+
+### Channel access rules and client binding
+
+`accessRules` in `api-settings.yaml` restrict the Slack channels each authenticated client (API key ID or OIDC client ID) may send alerts to, including escalation `moveToChannel` targets. Clients without a matching rule may use all channels, unless `defaultChannelAccess: deny`. With `API_CLIENT_BINDING=fill` (default), alerts without a `client` get the client ID, so insights show who sent them; `override` always replaces it.
+
+### Rolling out authentication
+
+To enable authentication without breaking existing clients, start with `API_AUTH_PERMISSIVE=true`: requests with credentials are checked, requests without are let through. Move the clients to credentials one by one, and set `API_AUTH_PERMISSIVE=false` when the `slackmgr_http_auth_requests_total{result="anonymous"}` metric (and the "Anonymous Requests" panel of the core Grafana dashboard) stays at zero.
+
+See the [core README](https://github.com/slackmgr/core#authentication) for all details.
+
 ## Related
 
 - [slackmgr/core](https://github.com/slackmgr/core) — the core library embedded by these examples
 - [slackmgr/go-client](https://github.com/slackmgr/go-client) — Go client for sending alerts to a running instance
-- [slackmgr/plugins](https://github.com/slackmgr/plugins) — database and queue plugins (SQS, DynamoDB, Postgres, Pub/Sub)
+- [slackmgr/plugins](https://github.com/slackmgr/plugins) — database and queue plugins (SQS, DynamoDB, Postgres, Pub/Sub) and the OIDC authenticator
 - [slackmgr/types](https://github.com/slackmgr/types) — shared interfaces and domain types
 
 ## License

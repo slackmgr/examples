@@ -126,6 +126,11 @@ func mainImpl() (retErr error) {
 		WithMetrics(metrics).
 		WithSettings(apiSettings)
 
+	// Enable authentication of the REST API, according to API_AUTH_MODE (off by default). See auth.go.
+	if err := configureAuth(ctx, cfg, apiServer, logger); err != nil {
+		return fmt.Errorf("failed to configure API authentication: %w", err)
+	}
+
 	// Start the manager and API server in separate goroutines.
 	// Also start a goroutine to periodically check for changes in the settings files and hot-reload them.
 	//

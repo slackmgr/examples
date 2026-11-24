@@ -14,6 +14,7 @@ require (
 	github.com/rs/zerolog v1.35.1
 	github.com/slackmgr/core v0.31.0
 	github.com/slackmgr/plugins/dynamodb v0.4.3
+	github.com/slackmgr/plugins/oidc v0.1.0
 	github.com/slackmgr/plugins/postgres v0.8.1
 	github.com/slackmgr/plugins/sqs v0.3.2
 	github.com/slackmgr/types v0.15.0
@@ -47,6 +48,7 @@ require (
 	github.com/gin-contrib/sse v1.1.1 // indirect
 	github.com/gin-contrib/timeout v1.2.5 // indirect
 	github.com/gin-gonic/gin v1.12.0 // indirect
+	github.com/go-jose/go-jose/v4 v4.1.9 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.30.3 // indirect

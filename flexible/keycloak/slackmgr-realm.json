@@ -1,0 +1,84 @@
+{
+  "realm": "slackmgr",
+  "displayName": "Slack Manager (local demo)",
+  "enabled": true,
+  "accessTokenLifespan": 300,
+  "clientScopes": [
+    {
+      "name": "alerts:write",
+      "description": "Send alerts to the Slack Manager API",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" }
+    },
+    {
+      "name": "alerts:test",
+      "description": "Test alerts with POST /alerts-test",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" }
+    },
+    {
+      "name": "config:read",
+      "description": "Read the routing rules and managed channels",
+      "protocol": "openid-connect",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" }
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "alertmanager",
+      "name": "Prometheus Alertmanager (demo client)",
+      "description": "Client credentials client that may only send alerts",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "alertmanager-demo-secret",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "defaultClientScopes": ["alerts:write"],
+      "optionalClientScopes": [],
+      "protocolMappers": [
+        {
+          "name": "slackmgr-api audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "slackmgr-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "slackmgr-admin",
+      "name": "Slack Manager admin (demo client)",
+      "description": "Client credentials client with all scopes",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "admin-demo-secret",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "defaultClientScopes": ["alerts:write", "alerts:test", "config:read"],
+      "optionalClientScopes": [],
+      "protocolMappers": [
+        {
+          "name": "slackmgr-api audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "slackmgr-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ]
+}

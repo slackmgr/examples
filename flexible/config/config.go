@@ -28,6 +28,24 @@ type Config struct {
 	Postgres                PostgresConfig
 	Slack                   SlackConfig
 	Redis                   RedisConfig
+	Auth                    AuthConfig
+}
+
+// Authentication modes of the REST API (API_AUTH_MODE).
+const (
+	AuthModeOff     = "off"     // no authentication: all endpoints are open (default)
+	AuthModeAPIKeys = "apikeys" // API keys from the API settings file (apiKeys)
+	AuthModeOIDC    = "oidc"    // OIDC/OAuth2 access tokens
+	AuthModeBoth    = "both"    // API keys first, then OIDC/OAuth2 access tokens
+)
+
+// AuthConfig configures authentication of the REST API.
+type AuthConfig struct {
+	Mode          string // AuthModeOff, AuthModeAPIKeys, AuthModeOIDC or AuthModeBoth
+	Permissive    bool   // let requests without credentials through anonymously (for migrating clients)
+	ClientBinding string // fill (core default), override or off
+	OIDCIssuerURL string
+	OIDCAudience  string
 }
 
 type AwsConfig struct {
@@ -153,6 +171,13 @@ func New() *Config {
 			Username: GetEnvIfSet("REDIS_USERNAME", ""),
 			DB:       GetEnvIntIfSet("REDIS_DB", 0),
 		},
+		Auth: AuthConfig{
+			Mode:          GetEnvIfSet("API_AUTH_MODE", AuthModeOff),
+			Permissive:    GetEnvBoolIfSet("API_AUTH_PERMISSIVE", false),
+			ClientBinding: GetEnvIfSet("API_CLIENT_BINDING", ""),
+			OIDCIssuerURL: GetEnvIfSet("OIDC_ISSUER_URL", ""),
+			OIDCAudience:  GetEnvIfSet("OIDC_AUDIENCE", "slackmgr-api"),
+		},
 	}
 }
 
@@ -180,6 +205,12 @@ func (c *Config) GetAPICfg() *managerconfig.APIConfig {
 	apiCfg.RateLimitPerAlertChannel = &managerconfig.RateLimitConfig{
 		AlertsPerSecond: c.APIAlertsPerSecond,
 		AllowedBurst:    c.APIAllowedBurst,
+	}
+
+	// Only used when authentication is enabled (see configureAuth in auth.go).
+	apiCfg.Auth = &managerconfig.AuthConfig{
+		Permissive:    c.Auth.Permissive,
+		ClientBinding: c.Auth.ClientBinding,
 	}
 
 	return apiCfg

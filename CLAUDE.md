@@ -44,6 +44,8 @@ docker compose up -d                # start Postgres + Redis dependencies
 
 Requires `manager-settings.yaml` and `api-settings.yaml` at runtime (copy from `_sample_*` files). All other config is via environment variables.
 
+REST API authentication is optional and off by default (`API_AUTH_MODE=off|apikeys|oidc|both`, wired in `auth.go`). `make apikey` generates an API key and its hash. `docker compose --profile oidc up -d` starts a local Keycloak (realm in `keycloak/slackmgr-realm.json`, port 8081) for OIDC access tokens; `make token` fetches one. Keep the default `off` so the example runs without extra setup.
+
 ### Linting (both examples)
 
 Linting uses golangci-lint v2 with config in `.golangci.yaml` at the repo root. Formatters enabled: `gci`, `gofmt`, `gofumpt`, `goimports`.

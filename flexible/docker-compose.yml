@@ -14,3 +14,18 @@ services:
       - POSTGRES_PASSWORD=qwerty
       - POSTGRES_USER=postgres
       - POSTGRES_DB=slack_manager
+  # Optional local OIDC identity provider for API authentication with access tokens (API_AUTH_MODE=oidc or both).
+  # Start it with: docker compose --profile oidc up -d
+  # It imports the "slackmgr" realm from keycloak/slackmgr-realm.json, with two client credentials clients.
+  # For local development only: the admin password and client secrets are public.
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4
+    profiles: ["oidc"]
+    command: ["start-dev", "--import-realm"]
+    ports:
+      - "8081:8080"
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import:ro

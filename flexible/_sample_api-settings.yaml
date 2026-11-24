@@ -21,3 +21,28 @@ routingRules:
     description: Alerts that don't match any specific team
     matchAll: true
     channel: CZZZZZZZZZZZ
+
+# API keys, used when API_AUTH_MODE is apikeys or both. Only the SHA-256 hash of each key is stored.
+# Generate a key and its hash with: make apikey
+# Keys can be added, rotated and revoked at runtime: this file is hot-reloaded.
+# Scopes: alerts:write (send alerts), alerts:test (POST /alerts-test), config:read (GET /mappings, /channels), * (all)
+#
+# apiKeys:
+#   - id: alertmanager                 # the client ID, logged with each request and used by accessRules
+#     description: Prometheus Alertmanager
+#     keySha256: "<64 hex characters>"
+#     scopes: [alerts:write]
+#   - id: admin
+#     description: Operators
+#     keySha256: "<64 hex characters>"
+#     scopes: ["*"]
+
+# Channel access rules for authenticated clients (API keys and OIDC clients alike), matched by client ID.
+# A client that matches a rule may only send alerts to the channels of its rules (including escalation moveToChannel
+# targets). Clients without a matching rule are allowed all channels, unless defaultChannelAccess is deny.
+#
+# defaultChannelAccess: allow
+# accessRules:
+#   - name: alertmanager
+#     principals: [alertmanager]       # client IDs; a trailing * matches a prefix, * matches everyone
+#     channels: [CXXXXXXXXXXX, CYYYYYYYYYYY]

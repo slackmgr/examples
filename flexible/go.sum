@@ -73,6 +73,8 @@ github.com/gin-contrib/timeout v1.2.5 h1:fDDAsQwFHvt1UWoU86iFNAk/6V9euq2MxKZLtKF
 github.com/gin-contrib/timeout v1.2.5/go.mod h1:v+ewfri+iKK61tfc3Eg5/48NpEax8BMOiE418nYgIQk=
 github.com/gin-gonic/gin v1.12.0 h1:b3YAbrZtnf8N//yjKeU2+MQsh2mY5htkZidOM7O0wG8=
 github.com/gin-gonic/gin v1.12.0/go.mod h1:VxccKfsSllpKshkBWgVgRniFFAzFb9csfngsqANjnLc=
+github.com/go-jose/go-jose/v4 v4.1.9 h1:pKfeQkig1NmgK4hJrZYXLEYURXfoJB61Larw0uIW4gY=
+github.com/go-jose/go-jose/v4 v4.1.9/go.mod h1:x4oUasVrzR7071A4TnHLGSPpNOm2a21K9Kf04k1rs08=
 github.com/go-openapi/jsonpointer v1.0.2 h1:NbW7xT2b+l7x+JefiPGDsZWsrLk1ogrz4AHK1TTzMt8=
 github.com/go-openapi/jsonpointer v1.0.2/go.mod h1:N0rI4MbNKD7xAFTiHtB+5Nhrg2j/wwYg7m7Fmb4/jk8=
 github.com/go-playground/assert/v2 v2.2.0 h1:JvknZsQTYeFEAhQwI4qEt9cyV5ONwRHC+lYKSsYSR8s=
@@ -178,6 +180,8 @@ github.com/slackmgr/core v0.31.0 h1:acpJGIzq3gePKPJ5Nez2L5Xv8FRm7J2sziPXCG+VLDQ=
 github.com/slackmgr/core v0.31.0/go.mod h1:WrEtAN6xaujvlIryuzVM/OPz0tG0KvyGC4h5spgs7nA=
 github.com/slackmgr/plugins/dynamodb v0.4.3 h1:hJN0iN6dYwd1eAs1ZjW1sHtq3Ya/0MVSJ2oD1pRpP/o=
 github.com/slackmgr/plugins/dynamodb v0.4.3/go.mod h1:92+N7OHoH7lZfkuNZ4HLjMKzA3hUQaK0D96Zw6exHS4=
+github.com/slackmgr/plugins/oidc v0.1.0 h1:x43p1NGGv35NTEwEeULN1WseL7vhcy9+L4Dp4YiaEq8=
+github.com/slackmgr/plugins/oidc v0.1.0/go.mod h1:giEGdIzwW9QQyK6pD9iqhiPCgDkHbmTezZyJ0ZyIfpo=
 github.com/slackmgr/plugins/postgres v0.8.1 h1:0RttIAJEAep+q4yGSJyi7KACAZWgpLlFxVnTPwTt0cE=
 github.com/slackmgr/plugins/postgres v0.8.1/go.mod h1:a3idUqaC7cK96uY0BY6sjj/EmRE5J3XDCtnnMGoNSDQ=
 github.com/slackmgr/plugins/sqs v0.3.2 h1:Rqm9y/DtmAaRLTJohiiO80SJ1adlY7sPga0tDRmyDgw=
