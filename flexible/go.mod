@@ -1,6 +1,6 @@
 module github.com/slackmgr/examples/flexible
 
-go 1.26.0
+go 1.26.10
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.47.3
@@ -8,15 +8,15 @@ require (
 	github.com/aws/aws-sdk-go-v2/credentials v1.20.9
 	github.com/aws/aws-sdk-go-v2/service/sts v1.51.4
 	github.com/eko/gocache/lib/v4 v4.4.0
-	github.com/eko/gocache/store/rediscluster/v4 v4.2.9
+	github.com/eko/gocache/store/rediscluster/v4 v4.2.10
 	github.com/prometheus/client_golang v1.25.0
 	github.com/redis/go-redis/v9 v9.23.0
 	github.com/rs/zerolog v1.35.1
-	github.com/slackmgr/core v0.30.0
-	github.com/slackmgr/plugins/dynamodb v0.4.2
-	github.com/slackmgr/plugins/postgres v0.8.0
-	github.com/slackmgr/plugins/sqs v0.3.1
-	github.com/slackmgr/types v0.13.0
+	github.com/slackmgr/core v0.31.0
+	github.com/slackmgr/plugins/dynamodb v0.4.3
+	github.com/slackmgr/plugins/postgres v0.8.1
+	github.com/slackmgr/plugins/sqs v0.3.2
+	github.com/slackmgr/types v0.15.0
 	golang.org/x/sync v0.25.0
 	gopkg.in/yaml.v2 v2.4.0
 )
@@ -45,7 +45,7 @@ require (
 	github.com/eko/gocache/store/go_cache/v4 v4.2.10 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.13 // indirect
 	github.com/gin-contrib/sse v1.1.1 // indirect
-	github.com/gin-contrib/timeout v1.2.3 // indirect
+	github.com/gin-contrib/timeout v1.2.5 // indirect
 	github.com/gin-gonic/gin v1.12.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
@@ -54,7 +54,7 @@ require (
 	github.com/goccy/go-json v0.10.6 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/gorilla/websocket v1.5.3 // indirect
+	github.com/gorilla/websocket v1.5.4-0.20240701034025-d67f41855da4 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/pgx/v5 v5.10.0 // indirect
@@ -75,7 +75,7 @@ require (
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.60.0 // indirect
 	github.com/segmentio/ksuid v1.0.4 // indirect
-	github.com/slack-go/slack v0.30.1 // indirect
+	github.com/slack-go/slack v0.36.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.3.1 // indirect
 	go.mongodb.org/mongo-driver/v2 v2.8.0 // indirect
@@ -85,7 +85,7 @@ require (
 	golang.org/x/exp v0.0.0-20260312153236-7ab1446f8b90 // indirect
 	golang.org/x/net v0.62.0 // indirect
 	golang.org/x/sys v0.49.0 // indirect
-	golang.org/x/text v0.43.0 // indirect
+	golang.org/x/text v0.44.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 )
